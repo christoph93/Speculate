@@ -11,10 +11,10 @@ public class SpeculateServer {
 			System.out.println("RMI registry already running.");
 		}
 		try {
-			Naming.rebind ("PID", new SpeculateImpl ());
-			System.out.println ("PidServer is ready.");
+			Naming.rebind ("Speculate", new SpeculateImpl(5));
+			System.out.println ("Speculate server pronto.");
 		} catch (Exception e) {
-			System.out.println ("PidServer failed:");
+			System.out.println ("Speculate server falhou:");
 			e.printStackTrace();
 		}
 	}
