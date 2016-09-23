@@ -67,11 +67,15 @@ public class SpeculateClient {
                 switch(op){
                     case 1: //colocar jogador na fila
                         int partida = p.temPartida(ID);
-                        
+                        System.out.println("1partida = " + partida);
                         while (partida == 0){
+                            System.out.println("2partida = " + partida);
                             System.out.println("Procurando partida...");
                             Thread.sleep(1000);
+                            System.out.println("3partida = " + partida);
                             partida = p.temPartida(ID);
+                            System.out.println("4partida = " + partida);
+                            System.out.println("Tentando de novo");
                         }
                         
                         switch(partida){
