@@ -70,7 +70,7 @@ public class SpeculateClient {
                         
                         while (partida == 0){
                             System.out.println("Procurando partida...");
-                            Thread.sleep(2000);
+                            Thread.sleep(1000);
                             partida = p.temPartida(ID);
                         }
                         
