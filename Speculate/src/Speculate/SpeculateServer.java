@@ -1,3 +1,6 @@
+package Speculate;
+
+import Speculate.SpeculateImpl;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 

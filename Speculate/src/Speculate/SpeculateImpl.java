@@ -1,3 +1,4 @@
+package Speculate;
 
 import Speculate.Jogador;
 import Speculate.Partida;
@@ -20,23 +21,21 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
     static Semaphore mutexID = new Semaphore(1);
     static Semaphore mutexFila = new Semaphore(1);
 
-    protected SpeculateImpl(int maxPartidas) throws RemoteException {
+    public SpeculateImpl(int maxPartidas) throws RemoteException {
         this.maxPartidas = maxPartidas;
         jogadores = new ArrayList<>();
         fila = new ArrayList<>();
         partidas = new ArrayList<>(maxPartidas);
     }
 
-
-    @Override
-    public int registraJogador(String nome) throws RemoteException {
+    public synchronized int registraJogador(String nome) throws RemoteException {
         System.out.println("Registrando jogador " + nome);
 
-        if (jogadores.size() > maxPartidas*2){
+        if (jogadores.size() > maxPartidas * 2) {
             System.out.println("retornou -2");
             return -2;
         }
-        
+
         try {
             mutexID.acquire();
 
@@ -59,86 +58,98 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
         }
     }
 
-    @Override
-    public int temPartida(int ID) throws RemoteException {
-        try {
-            mutexFila.acquire();
+    public synchronized int temPartida(int ID) throws RemoteException {
+
+       // try {
+          //  mutexFila.acquire();
             Jogador aux = null;
-            for (Jogador j : jogadores){
-                if (j.getID() == ID){
-                    aux = j;
-                } else return -1;
+            boolean naFila = false;
+            for (Jogador jf : fila) {
+                if (ID == jf.getID()) {
+                    naFila = true;
+                    aux = jf;
+                } else {
+                    naFila = false;
+                }
             }
-            fila.add(aux);
-            System.out.println("Colocando " + aux.getNome() + " na fila");
-            if (jogadores.size() == 1){
-                System.out.println("Retornando 0 para " + aux.getNome());
-                mutexFila.release();
+
+            if (!naFila) {
+                for (Jogador j : jogadores) {
+                    if (j.getID() == ID) {
+                        aux = j;
+                        System.out.println("Colocando " + aux.getNome() + " na fila");
+                        fila.add(aux);
+                    } else {
+                        System.out.println("01>Retornando -1 para " + aux.getNome());
+                        return -1;
+                    }
+                }
+            }
+
+            if (jogadores.size() == 1) {
+                System.out.println("Somente um jogador na fila, retornando 0 para " + aux.getNome());
+               // mutexFila.release();
                 return 0;
             } else {
                 switch (jogadores.indexOf(aux)) {
                     case 0:
-                        System.out.println("Retornando 1 para " + aux.getNome());
-                        mutexFila.release();
+                        //jogador é o primeiro da fila
+                        System.out.println(aux.getNome() + " é o primeiro da fila, retornando 1 para " + aux.getNome());
+                       // mutexFila.release();
                         return 1;
                     case 1:
-                        if(partidas.size() <= maxPartidas){
+                        //jogador é o segundo da fila
+                        if (partidas.size() <= maxPartidas) {
                             criaPartida(fila.get(0), fila.get(1), contID, fila.get(0));
-                            System.out.println("Retornando 2 para " + aux.getNome());
-                            mutexFila.release();
+                            System.out.println("há dois jogadores na fila e " + aux.getNome() + "é o segundo da fila, retornando 2 para " + aux.getNome());
+                          //  mutexFila.release();
                             return 2;
-                        } else{
-                            System.out.println("Retornando -1 para " + aux.getNome());
-                            mutexFila.release();
+                        } else {
+                            System.out.println("02>Retornando -1 para " + aux.getNome());
+                           // mutexFila.release();
                             return -1;
                         }
                     default:
-                        mutexFila.release();
+                        System.out.println("03>Retornando -1 para " + aux.getNome());
+                       // mutexFila.release();
                         return -1;
                 }
             }
-        } catch (InterruptedException ex) {
-            Logger.getLogger(SpeculateImpl.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-        mutexFila.release();
-        return -1;
+       // } catch (InterruptedException ex) {
+         //   Logger.getLogger(SpeculateImpl.class.getName()).log(Level.SEVERE, null, ex);
+      //  }
+       // mutexFila.release();
+       // return -1;
     }
 
-    
-    private void criaPartida(Jogador j1, Jogador j2, int ID, Jogador v){
+    private void criaPartida(Jogador j1, Jogador j2, int ID, Jogador v) {
         contID++;
         Partida p = new Partida(j1, j2, ID, v);
         partidas.add(p);
         fila.remove(0);
         fila.remove(1);
     }
-    
-    @Override
+
     public int ehMinhaVez() throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public String obtemTabuleiro() throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public String obtemOponente(int ID) throws RemoteException {
         return null;
     }
 
-    @Override
     public int defineJogadas() throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public int jogaDado() throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public int encerraPartida() throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
