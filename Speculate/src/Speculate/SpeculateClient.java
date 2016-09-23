@@ -9,9 +9,9 @@ import java.util.logging.Logger;
 
 public class SpeculateClient {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
-        int ID;
+        int ID = -1;
 
         try {
             Scanner sc = new Scanner(System.in);
@@ -39,7 +39,9 @@ public class SpeculateClient {
                         } else if (resp >= 1){
                             System.out.println("Registrado com sucesso");                            
                             ID = resp;                            
-                            System.out.println(ID); break;                                                        
+                            System.out.println(ID);
+                            aux = 2;
+                            break;                                                        
                         }
                         
 
@@ -53,6 +55,58 @@ public class SpeculateClient {
                 }
 
             }
+            
+            
+            while (aux == 2){
+                
+                System.out.println("Selecione uma opção: ");
+                System.out.println("1 - Procurar oponente \n2 - Encerrar");
+                
+                op = sc.nextInt();
+                
+                switch(op){
+                    case 1: //colocar jogador na fila
+                        int partida = p.temPartida(ID);
+                        
+                        while (partida == 0){
+                            System.out.println("Procurando partida...");
+                            Thread.sleep(2000);
+                            partida = p.temPartida(ID);
+                        }
+                        
+                        switch(partida){
+                            case -1: 
+                                System.out.println("Ocorreu um erro!");
+                                aux = -1;
+                                return;
+                             
+                            case 1:
+                                System.out.println("Partida encontrada! Você começa jogando.");
+                                break;
+                            
+                            case 2:
+                                System.out.println("Partida encontrada! Você é o segundo a jogar.");
+                        }
+                        
+                        System.out.println("Oponente encontrado: " + "\nIniciando partida...");
+                        
+                        aux = 3; break;
+                        
+                        
+                    case 2: aux=-1; break;
+                    
+                    default: aux=-1; break;
+                }
+                
+                
+            }
+            
+            
+            while(aux == 3){
+                
+            }
+            
+            
         } catch (NotBoundException ex) {
             Logger.getLogger(SpeculateClient.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {

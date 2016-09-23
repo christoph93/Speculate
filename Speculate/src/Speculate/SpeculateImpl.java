@@ -22,21 +22,7 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
         fila = new ArrayList<>();
     }
 
-//	@Override
-//	public int getPID() throws RemoteException {
-//		int pid;
-//
-//		System.out.println("PidServer> Entrada");
-//		pid = nextPID;
-//		try {
-//			Thread.sleep(2000);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//		++nextPID;
-//		System.out.println("PidServer> Saida");
-//		return pid;
-//	}
+
     @Override
     public int registraJogador(String nome) throws RemoteException {
 
@@ -66,8 +52,26 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
     }
 
     @Override
-    public int temPartida() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int temPartida(int ID) throws RemoteException {
+        Jogador aux = null;
+        for (Jogador j : jogadores){
+            if (j.getID() == ID){
+                aux = j;
+            } else return -1;
+        }
+        fila.add(aux);
+        if (jogadores.size() == 1){
+            return 0;
+        } else {
+            switch (jogadores.indexOf(aux)) {
+                case 0:
+                    return 1;
+                case 1:
+                    return 2;
+                default:
+                    return -1;
+            }
+        }
     }
 
     @Override
@@ -81,8 +85,8 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
     }
 
     @Override
-    public String obtemOponente() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String obtemOponente(int ID) throws RemoteException {
+        return null;
     }
 
     @Override
