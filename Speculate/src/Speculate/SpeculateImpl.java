@@ -30,32 +30,21 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
 
     public synchronized int registraJogador(String nome) throws RemoteException {
         System.out.println("Registrando jogador " + nome);
-
-        if (jogadores.size() > maxPartidas * 2) {
-            System.out.println("retornou -2");
-            return -2;
-        }
-
-        try {
-            mutexID.acquire();
-
-            for (Jogador k : jogadores) {
-                if (k.getNome().equals(nome)) {
-                    System.out.println("Retornou -1");
-                    return -1;
-                }
-            }
-            Jogador j = new Jogador(nextID, nome);
-            nextID++;
-            jogadores.add(j);
-            mutexID.release();
-            return j.getID();
-
-        } catch (InterruptedException ex) {
-            Logger.getLogger(SpeculateImpl.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Server: registraJogador locked");
-            return 0;
-        }
+        
+       for (Jogador j : jogadores){
+           if(j.getNome().equals(nome)){
+               return -1;
+           }
+       }
+       
+       if (jogadores.size() >= maxPartidas * 2 ){
+           return -2;
+       }
+       
+       Jogador novoJog = new Jogador(nextID, nome);
+       nextID++;
+       
+       return novoJog.getID();        
     }
 
     public synchronized int temPartida(int ID) throws RemoteException {
