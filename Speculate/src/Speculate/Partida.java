@@ -13,13 +13,11 @@ public class Partida {
     
     
     private Jogador jogador1, jogador2;
-    private int ID;
-    private Jogador vez;
+    private int ID;    
     
-    public Partida(Jogador jogador1, Jogador jogador2, int ID, Jogador vez){
+    public Partida(Jogador jogador1, Jogador jogador2, int ID){
         this.jogador1 = jogador1;
-        this.jogador2 = jogador2;
-        this.vez = vez;
+        this.jogador2 = jogador2;        
     }
 
     public Jogador getJogador1() {
@@ -45,16 +43,5 @@ public class Partida {
     public void setID(int ID) {
         this.ID = ID;
     }
-
-    public Jogador getVez() {
-        return vez;
-    }
-
-    public void setVez(Jogador vez) {
-        this.vez = vez;
-    }
-    
-    
-    
     
 }

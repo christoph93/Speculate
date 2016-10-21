@@ -41,9 +41,8 @@ public class SpeculateClient {
                             System.out.println("Numero máximo de jogadores atingido");
                             break;
                         } else if (resp >= 1) {
-                            System.out.println("Registrado com sucesso");
-                            ID = resp;
-                            System.out.println(ID);
+                            System.out.println("Registrado com sucesso. Seu ID é " + resp);
+                            ID = resp;                            
                             aux = 2;
                             break;
                         }
@@ -70,7 +69,9 @@ public class SpeculateClient {
 
                 switch (op) {
                     case 1: //colocar jogador na fila
-                        int partida = p.temPartida(ID);
+                        int partida = 0;
+                        
+                        //fica perguntando ao servidor se tem partida
                         System.out.println("Procurando partida...");
                         while (partida == 0) {                            
                             Thread.sleep(1000);
@@ -90,8 +91,6 @@ public class SpeculateClient {
                             case 2:
                                 System.out.println("Partida encontrada! Você é o segundo a jogar.");
                         }
-
-                        System.out.println("Oponente encontrado: " + "\nIniciando partida...");
 
                         aux = 3;
                         break;
