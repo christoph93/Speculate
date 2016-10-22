@@ -23,6 +23,8 @@ public class Jogador {
         this.jogadas = -1;
     }
 
+
+        
     public int getJogadas() {
         return jogadas;
     }

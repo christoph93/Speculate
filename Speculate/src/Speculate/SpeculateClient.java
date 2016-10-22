@@ -63,22 +63,22 @@ public class SpeculateClient {
             while (aux == 2) {
 
                 System.out.println("Selecione uma opção: ");
-                System.out.println("1 - Procurar oponente \n2 - Encerrar");
+                System.out.println("1 - Procurar partida \n2 - Encerrar");
 
                 op = sc.nextInt();
 
                 switch (op) {
                     case 1: //colocar jogador na fila
-                        int partida = 0;
+                        int statusPartida = 0;
                         
                         //fica perguntando ao servidor se tem partida
                         System.out.println("Procurando partida...");
-                        while (partida == 0) {                            
+                        while (statusPartida == 0) {                            
                             Thread.sleep(1000);
-                            partida = p.temPartida(ID);                            
+                            statusPartida = p.temPartida(ID);                            
                         }
 
-                        switch (partida) {
+                        switch (statusPartida) {
                             case -1:
                                 System.out.println("Ocorreu um erro!");
                                 aux = -1;
