@@ -75,7 +75,8 @@ public class SpeculateClient {
                         System.out.println("Procurando partida...");
                         while (statusPartida == 0) {                            
                             Thread.sleep(1000);
-                            statusPartida = p.temPartida(ID);                            
+                            statusPartida = p.temPartida(ID);   
+                            System.out.println("debug: statusPartida " +  statusPartida);
                         }
 
                         switch (statusPartida) {

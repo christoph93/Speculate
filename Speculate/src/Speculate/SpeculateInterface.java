@@ -10,7 +10,7 @@ public interface SpeculateInterface extends Remote {
 
     public int temPartida(int ID) throws RemoteException;
 
-    public int ehMinhaVez() throws RemoteException;
+    public int ehMinhaVez(int ID) throws RemoteException;
 
     public String obtemTabuleiro() throws RemoteException;
 
