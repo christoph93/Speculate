@@ -87,10 +87,13 @@ public class SpeculateClient {
 
                             case 1:
                                 System.out.println("Partida encontrada! Você começa jogando.");
+                                aux = 3;
                                 break;
 
                             case 2:
                                 System.out.println("Partida encontrada! Você é o segundo a jogar.");
+                                aux = 3;
+                                break;
                         }
 
                         aux = 3;
