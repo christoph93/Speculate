@@ -22,9 +22,7 @@ public class Teste {
         tab.setCasaOcupada(5);
         tab.setCasaOcupada(6);
         
-        System.out.println(tab.getTabuleiro());
-        
-        
+        System.out.println(tab.getTabuleiro());        
     }
     
 }
