@@ -26,8 +26,8 @@ public class Casa {
     }
 
     public String getCasa() {
-        if(ocupada) return "O";
-        else return "X";
+        if(ocupada) return "X";
+        else return "O";
     }
 
 }

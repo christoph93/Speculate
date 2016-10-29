@@ -111,6 +111,25 @@ public class SpeculateClient {
             }
 
             while (aux == 3) {
+                int vez = p.ehMinhaVez(ID);
+                
+                if (vez == 1){
+                    System.out.println("É o seu turno. Defina o número de jogadas");
+                    int numJogadas = sc.nextInt();
+                    int resposta = p.defineJogadas(ID, numJogadas);
+                    
+                    switch (resposta){
+                        case 1 : System.out.println("Você definiu " + numJogadas + " jogadas");
+                        case -1 : System.out.println("Ocorreu um erro!");
+                        case -2 : System.out.println("Não existe partida.");
+                        case -3 : System.out.println("Não é a sua vez.");
+                        case -4 : System.out.println("Não é hora de definir jogadas.");
+                        default : System.out.println("Erro!");
+                    }
+                }
+                
+                
+                
 
             }
 

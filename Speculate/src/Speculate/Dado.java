@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Dado {
     
-    static int jogaDado(){
+    public  int jogaDado(){
         Random r = new Random();        
         return r.nextInt(5) + 1;       
     }    

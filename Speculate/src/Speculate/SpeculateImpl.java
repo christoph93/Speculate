@@ -99,7 +99,7 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
         return -1;
     }
 
-    private Partida getByIdJogador(int idJogador) {
+    private Partida getPartidaByIdJogador(int idJogador) {
         for (Partida p : partidas) {
             if (p.getJogador1() != null) {
                 if (p.getJogador1().getID() == idJogador) {
@@ -119,24 +119,36 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
 
     public int ehMinhaVez(int idJogador) throws RemoteException {
         boolean jogadorExiste = false;
-        
+
+        //verifica se o jogador está registrado
         for (Jogador j : jogadores) {
             if (j.getID() == idJogador) {
                 jogadorExiste = true;
             }
         }
-        
-        if (!jogadorExiste) return -1;
-        
-        Partida p = getByIdJogador(idJogador);
-        
-        if(p == null) return -2;
-        
-        if (p.getVez().getID() == idJogador ) return 1;
-        if (p.getVez().getID() != idJogador ) return 0;
+
+        if (!jogadorExiste) {
+            return -1;
+        }
+
+        //busca a partida do jogador
+        Partida p = getPartidaByIdJogador(idJogador);
+
+        if (p == null) {
+            return -2;
+        }
+
+        //verifica se é a vez do jogador
+        if (p.getVez().getID()
+                == idJogador) {
+            return 1;
+        }
+        if (p.getVez().getID()
+                != idJogador) {
+            return 0;
+        }
 
         //implementar tipos de vitória
-
         return 0;
     }
 
@@ -145,23 +157,28 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
     }
 
     public String obtemOponente(int ID) throws RemoteException {
-        Partida p = getByIdJogador(ID);
-        if (p.getJogador1().getID() == ID) return p.getJogador2().getNome();
-        if (p.getJogador2().getID() == ID) return p.getJogador1().getNome();
-        
+        Partida p = getPartidaByIdJogador(ID);
+        if (p.getJogador1().getID() == ID) {
+            return p.getJogador2().getNome();
+        }
+        if (p.getJogador2().getID() == ID) {
+            return p.getJogador1().getNome();
+        }
+
         return "";
     }
 
-    public int defineJogadas() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int defineJogadas(int ID, int numJogadas) throws RemoteException {
+        Partida p = getPartidaByIdJogador(ID);
+        return p.defineJogadas(ID, numJogadas);
     }
 
-    public int jogaDado() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int jogaDado(int ID) throws RemoteException {
+        Partida p = getPartidaByIdJogador(ID);
+        return p.jogaDado(ID);
     }
 
     public int encerraPartida() throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 }

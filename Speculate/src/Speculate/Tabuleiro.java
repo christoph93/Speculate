@@ -24,6 +24,65 @@ public class Tabuleiro {
         this.tab = geraTab();
     }
 
+    public String getTab() {
+        return tab;
+    }
+
+    public void setTab(String tab) {
+        this.tab = tab;
+    }
+
+    public Casa getCasa1() {
+        return casa1;
+    }
+
+    public void setCasa1(Casa casa1) {
+        this.casa1 = casa1;
+    }
+
+    public Casa getCasa2() {
+        return casa2;
+    }
+
+    public void setCasa2(Casa casa2) {
+        this.casa2 = casa2;
+    }
+
+    public Casa getCasa3() {
+        return casa3;
+    }
+
+    public void setCasa3(Casa casa3) {
+        this.casa3 = casa3;
+    }
+
+    public Casa getCasa4() {
+        return casa4;
+    }
+
+    public void setCasa4(Casa casa4) {
+        this.casa4 = casa4;
+    }
+
+    public Casa getCasa5() {
+        return casa5;
+    }
+
+    public void setCasa5(Casa casa5) {
+        this.casa5 = casa5;
+    }
+
+    public Casa getCasa6() {
+        return casa6;
+    }
+
+    public void setCasa6(Casa casa6) {
+        this.casa6 = casa6;
+    }
+    
+    
+    
+
     private String geraTab() {
         String tab = "1 2 3 4 5 6\n";
         tab += casa1.getCasa() + " " + casa2.getCasa() + " " + casa3.getCasa() + " "

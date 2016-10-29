@@ -16,9 +16,9 @@ public interface SpeculateInterface extends Remote {
 
     public String obtemOponente(int ID) throws RemoteException;
 
-    public int defineJogadas() throws RemoteException;
+    public int defineJogadas(int ID, int numJogadas) throws RemoteException;
 
-    public int jogaDado() throws RemoteException;
+    public int jogaDado(int ID) throws RemoteException;
 
     public int encerraPartida() throws RemoteException;
 

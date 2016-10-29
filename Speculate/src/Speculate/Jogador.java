@@ -15,15 +15,44 @@ public class Jogador {
     private int ID;
     private String nome;   
     private int jogadas;
+    private int numBolas;
+    private int status;
     
     
     public Jogador(int ID, String nome){
         this.ID = ID;
         this.nome = nome;
         this.jogadas = -1;
+        numBolas = 15;
+        status = 0;
     }
 
+    public int getStatus() {
+        return status;
+    }
 
+    public void setStatus(int status) {
+        //0 - não é sua vez
+        //1 - definindo jogadas
+        //2 - jogando dados
+        this.status = status;
+    }
+    
+    public int getNumBolas() {
+        return numBolas;
+    }
+
+    public void setNumBolas(int numBolas) {
+        this.numBolas = numBolas;
+    }
+    
+    public void incrementaBolas(){
+        numBolas++;
+    }
+    
+    public void decrementaBolas(){
+        numBolas--;
+    }
         
     public int getJogadas() {
         return jogadas;
