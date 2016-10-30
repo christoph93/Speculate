@@ -1,6 +1,5 @@
 package Speculate;
 
-
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -42,7 +41,7 @@ public class SpeculateClient {
                             break;
                         } else if (resp >= 1) {
                             System.out.println("Registrado com sucesso. Seu ID é " + resp);
-                            ID = resp;                            
+                            ID = resp;
                             aux = 2;
                             break;
                         }
@@ -70,13 +69,13 @@ public class SpeculateClient {
                 switch (op) {
                     case 1: //colocar jogador na fila
                         int statusPartida = 0;
-                        
+
                         //fica perguntando ao servidor se tem partida
                         System.out.println("Procurando partida...");
-                        while (statusPartida == 0) {                            
+                        while (statusPartida == 0) {
                             Thread.sleep(1000);
-                            statusPartida = p.temPartida(ID);   
-                            System.out.println("debug: statusPartida " +  statusPartida);
+                            statusPartida = p.temPartida(ID);
+                            System.out.println("debug: statusPartida " + statusPartida);
                         }
 
                         switch (statusPartida) {
@@ -110,27 +109,64 @@ public class SpeculateClient {
 
             }
 
+            int numJogadas = -1;
             while (aux == 3) {
                 int vez = p.ehMinhaVez(ID);
-                
-                if (vez == 1){
-                    System.out.println("É o seu turno. Defina o número de jogadas");
-                    int numJogadas = sc.nextInt();
+                System.out.println("debug: ehMinhaVez = " + vez);
+                if (vez == 1) {
+                    System.out.println("É o seu turno. Defina o número de jogadas\n");
+                    numJogadas = sc.nextInt();
                     int resposta = p.defineJogadas(ID, numJogadas);
-                    
-                    switch (resposta){
-                        case 1 : System.out.println("Você definiu " + numJogadas + " jogadas");
-                        case -1 : System.out.println("Ocorreu um erro!");
-                        case -2 : System.out.println("Não existe partida.");
-                        case -3 : System.out.println("Não é a sua vez.");
-                        case -4 : System.out.println("Não é hora de definir jogadas.");
-                        default : System.out.println("Erro!");
+
+                    switch (resposta) {
+                        case 1:
+                            System.out.println("Você definiu " + numJogadas + " jogadas");
+                            aux = 4;
+                            break;
+                        case -1:
+                            System.out.println("Ocorreu um erro!");
+                            aux = -1;
+                            break;
+                        case -2:
+                            System.out.println("Não existe partida.");
+                            aux = 2;
+                            break;
+                        case -3:
+                            System.out.println("Não é a sua vez.");
+                            break;
+                        case -4:
+                            System.out.println("Não é hora de definir jogadas.");
+                            break;
+                        default:
+                            System.out.println("Erro!");
+                            break;
+                    }
+                }
+
+                Thread.sleep(500);
+
+            }
+            
+            while (aux == 4){
+                System.out.println("Quantos dados deseja jogar?");
+                int dados = sc.nextInt();
+                int auxJogadas = numJogadas;
+                
+                if (auxJogadas <= 0){
+                    System.out.println("Suas jogadas teminaram.");
+                    //
+                }
+                
+                if (dados > numJogadas || dados <= 0) System.out.println("Você deve jogar entre 1 e " + auxJogadas + " dados.");
+                else {
+                    for (int i = 0; i < dados; i++){
+                        System.out.println("Jogando dado! Resultado: " + p.jogaDado(ID));
+                        System.out.println(p.obtemTabuleiro(ID));
+                        auxJogadas--;
                     }
                 }
                 
                 
-                
-
             }
 
         } catch (NotBoundException ex) {

@@ -21,9 +21,26 @@ public class Partida {
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
         this.tabuleiro = new Tabuleiro();
-        this.dado = new Dado();
-        vez = jogador1;
+        this.dado = new Dado();        
     }
+
+    public Tabuleiro getTabuleiro() {
+        return tabuleiro;
+    }
+
+    public void setTabuleiro(Tabuleiro tabuleiro) {
+        this.tabuleiro = tabuleiro;
+    }
+
+    public Dado getDado() {
+        return dado;
+    }
+
+    public void setDado(Dado dado) {
+        this.dado = dado;
+    }
+    
+    
 
     public Jogador getJogador1() {
         return jogador1;
@@ -41,7 +58,7 @@ public class Partida {
     public int defineJogadas(int ID, int jogadas){
         Jogador jog = getJogadorByID(ID);
         if (vez != jog) return -3;
-        else if (jog.getStatus() != 2){
+        else if (jog.getStatus() != 1){
             return -4;
         } else if (jogadas > jog.getNumBolas() || jogadas <= 0){
             return -1;
@@ -64,38 +81,50 @@ public class Partida {
         switch (num) {
             case 1:
                 if (tabuleiro.getCasa1().getCasa().equals("X")) {
+                    tabuleiro.getCasa1().setLivre();
                     vez.incrementaBolas();
                 } else {
+                    tabuleiro.getCasa1().setOcupada();
                     vez.decrementaBolas();
                 }
             case 2:
                 if (tabuleiro.getCasa2().getCasa().equals("X")) {
+                    tabuleiro.getCasa2().setLivre();
                     vez.incrementaBolas();
                 } else {
+                    tabuleiro.getCasa2().setOcupada();
                     vez.decrementaBolas();
                 }
             case 3:
                 if (tabuleiro.getCasa3().getCasa().equals("X")) {
+                    tabuleiro.getCasa3().setLivre();
                     vez.incrementaBolas();
                 } else {
+                    tabuleiro.getCasa3().setOcupada();
                     vez.decrementaBolas();
                 }
             case 4:
                 if (tabuleiro.getCasa4().getCasa().equals("X")) {
+                    tabuleiro.getCasa4().setLivre();
                     vez.incrementaBolas();
                 } else {
+                    tabuleiro.getCasa4().setOcupada();
                     vez.decrementaBolas();
                 }
             case 5:
                 if (tabuleiro.getCasa5().getCasa().equals("X")) {
+                    tabuleiro.getCasa1().setLivre();
                     vez.incrementaBolas();
                 } else {
+                    tabuleiro.getCasa5().setOcupada();
                     vez.decrementaBolas();
                 }
             case 6:
                 if (tabuleiro.getCasa6().getCasa().equals("X")) {
+                    tabuleiro.getCasa6().setLivre();
                     vez.incrementaBolas();
                 } else {
+                    tabuleiro.getCasa6().setOcupada();
                     vez.decrementaBolas();
                 }
         }

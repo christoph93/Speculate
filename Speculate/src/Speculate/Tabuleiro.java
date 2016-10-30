@@ -16,10 +16,13 @@ public class Tabuleiro {
 
     public Tabuleiro() {
         casa1 = new Casa();
+        casa1.setOcupada();
         casa2 = new Casa();
         casa3 = new Casa();
+        casa3.setOcupada();
         casa4 = new Casa();
         casa5 = new Casa();
+        casa5.setOcupada();
         casa6 = new Casa();
         this.tab = geraTab();
     }
@@ -93,6 +96,7 @@ public class Tabuleiro {
     }
 
     public String getTabuleiro() {
+        geraTab();
         return this.tab;
     }
 

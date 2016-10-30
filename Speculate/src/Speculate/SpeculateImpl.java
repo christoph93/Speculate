@@ -3,8 +3,6 @@ package Speculate;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInterface {
 
@@ -88,10 +86,12 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
             if (p.getJogador1() != null && p.getJogador2() == null) {
                 System.out.println("colocando jogador " + jAux.getNome() + " na partida " + p.getID() + " e retornando 2");
                 p.setJogador2(jAux);
+                p.setVez(p.getJogador1());
                 return 2;
             } else if (p.getJogador1() == null && p.getJogador2() == null) {
                 System.out.println("colocando jogador " + jAux.getNome() + " na partida " + p.getID() + " e retornando 0");
                 p.setJogador1(jAux);
+                p.setVez(p.getJogador1());                
                 return 0;
             }
         }
@@ -139,12 +139,10 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
         }
 
         //verifica se é a vez do jogador
-        if (p.getVez().getID()
-                == idJogador) {
+        if (p.getVez().getID() == idJogador) {
             return 1;
         }
-        if (p.getVez().getID()
-                != idJogador) {
+        if (p.getVez().getID() != idJogador) {
             return 0;
         }
 
@@ -152,8 +150,10 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
         return 0;
     }
 
-    public String obtemTabuleiro() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String obtemTabuleiro(int ID) throws RemoteException {
+        Partida p = getPartidaByIdJogador(ID);
+        return p.getTabuleiro().getTab();
+        
     }
 
     public String obtemOponente(int ID) throws RemoteException {

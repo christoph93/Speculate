@@ -24,7 +24,7 @@ public class Jogador {
         this.nome = nome;
         this.jogadas = -1;
         numBolas = 15;
-        status = 0;
+        status = 1;
     }
 
     public int getStatus() {
