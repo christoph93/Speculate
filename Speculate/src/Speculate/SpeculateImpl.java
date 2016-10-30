@@ -91,7 +91,7 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
             } else if (p.getJogador1() == null && p.getJogador2() == null) {
                 System.out.println("colocando jogador " + jAux.getNome() + " na partida " + p.getID() + " e retornando 0");
                 p.setJogador1(jAux);
-                p.setVez(p.getJogador1());                
+                p.setVez(p.getJogador1());
                 return 0;
             }
         }
@@ -151,9 +151,10 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
     }
 
     public String obtemTabuleiro(int ID) throws RemoteException {
+        System.out.println("obtemTabuleiro(" + ID + ")");
         Partida p = getPartidaByIdJogador(ID);
         return p.getTabuleiro().getTab();
-        
+
     }
 
     public String obtemOponente(int ID) throws RemoteException {
@@ -174,8 +175,11 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
     }
 
     public int jogaDado(int ID) throws RemoteException {
+        System.out.println("jogaDado(" + ID + ")");
         Partida p = getPartidaByIdJogador(ID);
-        return p.jogaDado(ID);
+        int a = p.jogaDado(ID);
+        System.out.println("a: " + a);
+        return a;
     }
 
     public int encerraPartida() throws RemoteException {

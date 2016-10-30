@@ -147,7 +147,12 @@ public class SpeculateClient {
 
             }
             
+            
+            System.out.println("\n" + p.obtemTabuleiro(ID) + "\n");
             while (aux == 4){
+                
+                
+                
                 System.out.println("Quantos dados deseja jogar?");
                 int dados = sc.nextInt();
                 int auxJogadas = numJogadas;
@@ -163,6 +168,7 @@ public class SpeculateClient {
                         System.out.println("Jogando dado! Resultado: " + p.jogaDado(ID));
                         System.out.println(p.obtemTabuleiro(ID));
                         auxJogadas--;
+                        Thread.sleep(100);
                     }
                 }
                 

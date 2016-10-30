@@ -28,7 +28,7 @@ public class Tabuleiro {
     }
 
     public String getTab() {
-        return tab;
+        return geraTab();         
     }
 
     public void setTab(String tab) {
@@ -82,9 +82,6 @@ public class Tabuleiro {
     public void setCasa6(Casa casa6) {
         this.casa6 = casa6;
     }
-    
-    
-    
 
     private String geraTab() {
         String tab = "1 2 3 4 5 6\n";
@@ -95,10 +92,6 @@ public class Tabuleiro {
         return this.tab;
     }
 
-    public String getTabuleiro() {
-        geraTab();
-        return this.tab;
-    }
 
     public void setCasaOcupada(int numCasa) {
         switch (numCasa) {
@@ -146,7 +139,7 @@ public class Tabuleiro {
                 casa6.setLivre();
                 break;
         }
-        
+
         geraTab();
     }
 
