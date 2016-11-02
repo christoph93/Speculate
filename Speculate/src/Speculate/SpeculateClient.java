@@ -164,6 +164,13 @@ public class SpeculateClient {
                             System.out.print("<");
 
                             System.out.println("\n\n" + p.obtemTabuleiro(ID));
+                            
+                            if(p.getNumBolas(ID) == 0){
+                                System.out.println("Parabéns, suas bolas terminaram! Você venceu!");
+                                aux = 2;
+                                break;
+                            }
+                            
                             System.out.println("Você ficou com " + p.getNumBolas(ID) + " bolas!");
                             vezAux = true;
                             break;
@@ -187,12 +194,16 @@ public class SpeculateClient {
                     }
                 } else if (vez == 2) {
                     System.out.println("Parabéns, suas bolas terminaram! Você venceu!");
+                    aux = 2;
                 } else if (vez == 3) {
                     System.out.println("As bolas de " + oponente + " acabaram! Você perdeu!");
+                    aux = 2;
                 } else if (vez == 5) {
                     System.out.println(oponente + " não respondeu após 30s. Você venceu!");
+                    aux = 2;
                 } else if (vez == 6) {
                     System.out.println("Você ficou inativo por 30s. " + oponente + " venceu!");
+                    aux = 2;
                 }
 
                 Thread.sleep(500);

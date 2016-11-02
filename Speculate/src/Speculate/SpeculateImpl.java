@@ -139,14 +139,29 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
         }
 
         //verifica se é a vez do jogador
-        if (p.getVez().getID() == idJogador) {
+        if (p.getVez().getID() == idJogador) { //é a vez do jogador
+            //verifica se já ganhou ou se o oponente ganhou
+
+            if (p.getJogador1() == p.getVez()) { //é a vez do jogador1
+                if (p.getJogador1().getNumBolas() == 0) { //jogador1 venceu
+                    return 2;
+                } else if (p.getJogador2().getNumBolas() == 0) { //jogador2 venceu e jogador1 perdeu
+                    return 3;
+                }
+            } else if (p.getJogador2() == p.getVez()) { //é a vez do jogador2
+                if (p.getJogador2().getNumBolas() == 0) { //jogador2 venceu
+                    return 2;
+                } else if (p.getJogador1().getNumBolas() == 0) { //jogador1 venceu e jogador2 perdeu
+                    return 3;
+                }
+            }
+
             return 1;
         }
         if (p.getVez().getID() != idJogador) {
             return 0;
         }
 
-        //implementar tipos de vitória
         return 0;
     }
 
@@ -168,19 +183,19 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
 
         return "";
     }
-    
-    
-    public int getNumBolas(int ID){
+
+    public int getNumBolas(int ID) {
         Partida p = getPartidaByIdJogador(ID);
-        
-        if(ID == p.getJogador1().getID()){
+
+        if (ID == p.getJogador1().getID()) {
             return p.getJogador1().getNumBolas();
-        } else if (ID == p.getJogador2().getID()){
+        } else if (ID == p.getJogador2().getID()) {
             return p.getJogador2().getNumBolas();
-        } else return -1;
-        
+        } else {
+            return -1;
+        }
+
     }
-    
 
     public int defineJogadas(int ID, int numJogadas) throws RemoteException {
         Partida p = getPartidaByIdJogador(ID);
