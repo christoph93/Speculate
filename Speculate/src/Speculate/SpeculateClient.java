@@ -59,6 +59,8 @@ public class SpeculateClient {
 
             }
 
+            String oponente = "";
+
             while (aux == 2) {
 
                 System.out.println("Selecione uma opção: ");
@@ -75,7 +77,6 @@ public class SpeculateClient {
                         while (statusPartida == 0) {
                             Thread.sleep(1000);
                             statusPartida = p.temPartida(ID);
-                            System.out.println("debug: statusPartida " + statusPartida);
                         }
 
                         switch (statusPartida) {
@@ -85,12 +86,14 @@ public class SpeculateClient {
                                 return;
 
                             case 1:
-                                System.out.println("Partida encontrada! Você começa jogando.");
+                                oponente = p.obtemOponente(ID);
+                                System.out.println("Partida encontrada! Você começa jogando. Seu oponente é " + oponente);
                                 aux = 3;
                                 break;
 
                             case 2:
-                                System.out.println("Partida encontrada! Você é o segundo a jogar.");
+                                oponente = p.obtemOponente(ID);
+                                System.out.println("Partida encontrada! Você é o segundo a jogar. Seu oponente é " + oponente);
                                 aux = 3;
                                 break;
                         }
@@ -109,19 +112,60 @@ public class SpeculateClient {
 
             }
 
+            int quantidadeBolas;
+            boolean vezAux = true;
+
             int numJogadas = -1;
             while (aux == 3) {
                 int vez = p.ehMinhaVez(ID);
-                System.out.println("debug: ehMinhaVez = " + vez);
-                if (vez == 1) {
-                    System.out.println("É o seu turno. Defina o número de jogadas\n");
+
+                /* 
+                ­2 (erro: ainda não há partida), 
+                ­1 (erro: jogador não encontrado), 
+                0 (não), 
+                1 (sim), 
+                2 (é o vencedor), 
+                3 (é o perdedor), 
+                4 (houve empate), 
+                5 (vencedor por WO), 
+                6 (perdedor por WO)
+                 */
+                if (vez == 0) {
+                    if (vezAux) {
+                        System.out.println(oponente + " está jogando. Por favor aguarde.");
+                        vezAux = false;
+                    }
+                } else if (vez == 1) {
+                    quantidadeBolas = p.getNumBolas(ID);
+                    System.out.println("\n\n" + p.obtemTabuleiro(ID));
+                    System.out.println("É o seu turno! Você tem " + quantidadeBolas + " bolas. Defina o número de jogadas\n");
                     numJogadas = sc.nextInt();
                     int resposta = p.defineJogadas(ID, numJogadas);
 
                     switch (resposta) {
                         case 1:
-                            System.out.println("Você definiu " + numJogadas + " jogadas");
-                            aux = 4;
+                            System.out.println("Você definiu " + numJogadas + " jogadas.");
+                            System.out.print("Jogando dados em ");
+                            Thread.sleep(700);
+                            System.out.print("3...");
+                            Thread.sleep(700);
+                            System.out.print("2...");
+                            Thread.sleep(700);
+                            System.out.print("1...\n");
+                            Thread.sleep(1000);
+
+                            System.out.print("\n> ");
+                            for (int i = 1; i <= numJogadas; i++) {
+                                System.out.print(i + " ");
+                                p.jogaDado(ID);
+                                Thread.sleep(100);
+                            }
+
+                            System.out.print("<");
+
+                            System.out.println("\n\n" + p.obtemTabuleiro(ID));
+                            System.out.println("Você ficou com " + p.getNumBolas(ID) + " bolas!");
+                            vezAux = true;
                             break;
                         case -1:
                             System.out.println("Ocorreu um erro!");
@@ -141,38 +185,18 @@ public class SpeculateClient {
                             System.out.println("Erro!");
                             break;
                     }
+                } else if (vez == 2) {
+                    System.out.println("Parabéns, suas bolas terminaram! Você venceu!");
+                } else if (vez == 3) {
+                    System.out.println("As bolas de " + oponente + " acabaram! Você perdeu!");
+                } else if (vez == 5) {
+                    System.out.println(oponente + " não respondeu após 30s. Você venceu!");
+                } else if (vez == 6) {
+                    System.out.println("Você ficou inativo por 30s. " + oponente + " venceu!");
                 }
 
                 Thread.sleep(500);
 
-            }
-            
-            
-            System.out.println("\n" + p.obtemTabuleiro(ID) + "\n");
-            while (aux == 4){
-                
-                
-                
-                System.out.println("Quantos dados deseja jogar?");
-                int dados = sc.nextInt();
-                int auxJogadas = numJogadas;
-                
-                if (auxJogadas <= 0){
-                    System.out.println("Suas jogadas teminaram.");
-                    //
-                }
-                
-                if (dados > numJogadas || dados <= 0) System.out.println("Você deve jogar entre 1 e " + auxJogadas + " dados.");
-                else {
-                    for (int i = 0; i < dados; i++){
-                        System.out.println("Jogando dado! Resultado: " + p.jogaDado(ID));
-                        System.out.println(p.obtemTabuleiro(ID));
-                        auxJogadas--;
-                        Thread.sleep(100);
-                    }
-                }
-                
-                
             }
 
         } catch (NotBoundException ex) {

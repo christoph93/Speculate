@@ -153,7 +153,7 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
     public String obtemTabuleiro(int ID) throws RemoteException {
         System.out.println("obtemTabuleiro(" + ID + ")");
         Partida p = getPartidaByIdJogador(ID);
-        return p.getTabuleiro().getTab();
+        return p.getTabuleiro().getTabuleiro();
 
     }
 
@@ -168,6 +168,19 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
 
         return "";
     }
+    
+    
+    public int getNumBolas(int ID){
+        Partida p = getPartidaByIdJogador(ID);
+        
+        if(ID == p.getJogador1().getID()){
+            return p.getJogador1().getNumBolas();
+        } else if (ID == p.getJogador2().getID()){
+            return p.getJogador2().getNumBolas();
+        } else return -1;
+        
+    }
+    
 
     public int defineJogadas(int ID, int numJogadas) throws RemoteException {
         Partida p = getPartidaByIdJogador(ID);

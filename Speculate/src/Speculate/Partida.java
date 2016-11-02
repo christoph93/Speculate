@@ -16,6 +16,7 @@ public class Partida {
     private Jogador vez;
     private Tabuleiro tabuleiro;
     private Dado dado;
+    private int auxDados;
 
     public Partida(Jogador jogador1, Jogador jogador2, int ID) {
         this.jogador1 = jogador1;
@@ -64,74 +65,40 @@ public class Partida {
             return -1;
         } else {
             jog.setJogadas(jogadas);
+            auxDados = jogadas;
             return 1;
         }
     }
 
     public int jogaDado(int ID) {
-
+        
+        
+        //verifica se é a vez deste ID
         if (vez.getID() != ID) {
             return -3;
         }
 
         int num = dado.jogaDado();
-
-        //verifica se a casa está ocupada
-        switch (num) {
-            case 1:
-                if (tabuleiro.getCasa1().getCasa().equals("X")) {
-                    tabuleiro.getCasa1().setLivre();
-                    vez.incrementaBolas();
-                } else {
-                    tabuleiro.getCasa1().setOcupada();
-                    vez.decrementaBolas();
-                }
-                break;
-            case 2:
-                if (tabuleiro.getCasa2().getCasa().equals("X")) {
-                    tabuleiro.getCasa2().setLivre();
-                    vez.incrementaBolas();
-                } else {
-                    tabuleiro.getCasa2().setOcupada();
-                    vez.decrementaBolas();
-                }
-                break;
-            case 3:
-                if (tabuleiro.getCasa3().getCasa().equals("X")) {
-                    tabuleiro.getCasa3().setLivre();
-                    vez.incrementaBolas();
-                } else {
-                    tabuleiro.getCasa3().setOcupada();
-                    vez.decrementaBolas();
-                }
-                break;
-            case 4:
-
-                if (tabuleiro.getCasa4().getCasa().equals("X")) {
-                    tabuleiro.getCasa4().setLivre();
-                    vez.incrementaBolas();
-                } else {
-                    tabuleiro.getCasa4().setOcupada();
-                    vez.decrementaBolas();
-                }
-                break;
-            case 5:
-                if (tabuleiro.getCasa5().getCasa().equals("X")) {
-                    tabuleiro.getCasa1().setLivre();
-                    vez.incrementaBolas();
-                } else {
-                    tabuleiro.getCasa5().setOcupada();
-                    vez.decrementaBolas();
-                }
-                break;
-            case 6:
-                vez.decrementaBolas();
-                break;
-
+        Casa aux = tabuleiro.getCasas()[num-1];
+        
+        //verifica se a casa está ocupada e aplica as regras de acordo
+        if("X".equals(aux.getCasa())){
+            vez.incrementaBolas();
+            aux.setLivre();            
+        } else if ("O".equals(aux.getCasa())){
+            vez.decrementaBolas();
+            aux.setOcupada();
         }
-
+        
+        auxDados--;
+        
+        
+        if (auxDados == 0){
+            if(vez == jogador1) vez = jogador2;
+            else if (vez == jogador2) vez = jogador1;
+        }
+        
         return num;
-
     }
 
     public void setJogador1(Jogador jogador1) {
