@@ -139,12 +139,12 @@ public class SpeculateClient {
                         break;
                     case 1:
                         quantidadeBolas = p.getNumBolas(ID);
-                        System.out.println("\nTabuleiro atual: " + p.obtemTabuleiro(ID));
+                        System.out.println("\nTabuleiro atual: \n" + p.obtemTabuleiro(ID) + "\n");
                         System.out.println("É o seu turno! Você tem " + quantidadeBolas + " bolas. Defina o número de jogadas\n");
                         numJogadas = sc.nextInt();
                         
                         if(numJogadas > quantidadeBolas){
-                            System.out.println("Você deve jogar entre 1 e " + quantidadeBolas + " dados!");
+                            System.out.println("Você deve jogar entre 1 e " + quantidadeBolas + " dados!\n");
                             break;
                         }
                         
@@ -155,13 +155,13 @@ public class SpeculateClient {
                                 System.out.print("Jogando dados... ");                                
                                 Thread.sleep(1000);
 
-                                System.out.print("\n> ");
+                                System.out.print("\n\n> ");
                                 for (int i = 1; i <= numJogadas; i++) {
                                     System.out.print(p.jogaDado(ID) + " ");                                    
-                                    Thread.sleep(200);
+                                    Thread.sleep(150);
                                 }
 
-                                System.out.print("<");
+                                System.out.print("<\n");
 
                                 System.out.println("\nTabuleiro atual: \n" + p.obtemTabuleiro(ID));
 
@@ -171,7 +171,7 @@ public class SpeculateClient {
                                     break;
                                 }
 
-                                System.out.println("Você ficou com " + p.getNumBolas(ID) + " bolas!");
+                                System.out.println("\nVocê ficou com " + p.getNumBolas(ID) + " bolas!\n");
                                 vezAux = true;
                                 break;
                             case -1:

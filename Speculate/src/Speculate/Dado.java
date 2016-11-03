@@ -12,6 +12,6 @@ public class Dado {
     
     public  int jogaDado(){
         Random r = new Random();        
-        return r.nextInt(5) + 1;       
+        return r.nextInt(6) + 1;       
     }    
 }
