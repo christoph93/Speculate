@@ -144,14 +144,18 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
 
             if (p.getJogador1() == p.getVez()) { //é a vez do jogador1
                 if (p.getJogador1().getNumBolas() == 0) { //jogador1 venceu
+                    liberaPartida(p);
                     return 2;
                 } else if (p.getJogador2().getNumBolas() == 0) { //jogador2 venceu e jogador1 perdeu
+                    liberaPartida(p);
                     return 3;
                 }
             } else if (p.getJogador2() == p.getVez()) { //é a vez do jogador2
                 if (p.getJogador2().getNumBolas() == 0) { //jogador2 venceu
+                    liberaPartida(p);
                     return 2;
                 } else if (p.getJogador1().getNumBolas() == 0) { //jogador1 venceu e jogador2 perdeu
+                    liberaPartida(p);
                     return 3;
                 }
             }
@@ -171,6 +175,13 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
         return p.getTabuleiro().getTabuleiro();
 
     }
+    
+    
+    private void liberaPartida(Partida p){
+        int tmpID = p.getID();
+        p = new Partida(null, null, tmpID);
+    }
+    
 
     public String obtemOponente(int ID) throws RemoteException {
         Partida p = getPartidaByIdJogador(ID);

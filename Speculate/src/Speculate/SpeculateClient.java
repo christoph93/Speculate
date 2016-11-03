@@ -130,80 +130,88 @@ public class SpeculateClient {
                 5 (vencedor por WO), 
                 6 (perdedor por WO)
                  */
-                if (vez == 0) {
-                    if (vezAux) {
-                        System.out.println(oponente + " está jogando. Por favor aguarde.");
-                        vezAux = false;
-                    }
-                } else if (vez == 1) {
-                    quantidadeBolas = p.getNumBolas(ID);
-                    System.out.println("\n\n" + p.obtemTabuleiro(ID));
-                    System.out.println("É o seu turno! Você tem " + quantidadeBolas + " bolas. Defina o número de jogadas\n");
-                    numJogadas = sc.nextInt();
-                    int resposta = p.defineJogadas(ID, numJogadas);
+                switch (vez) {
+                    case 0:
+                        if (vezAux) {
+                            System.out.println(oponente + " está jogando. Por favor aguarde.");
+                            vezAux = false;
+                        }
+                        break;
+                    case 1:
+                        quantidadeBolas = p.getNumBolas(ID);
+                        System.out.println("\n\n" + p.obtemTabuleiro(ID));
+                        System.out.println("É o seu turno! Você tem " + quantidadeBolas + " bolas. Defina o número de jogadas\n");
+                        numJogadas = sc.nextInt();
+                        int resposta = p.defineJogadas(ID, numJogadas);
+                        switch (resposta) {
+                            case 1:
+                                System.out.println("Você definiu " + numJogadas + " jogadas.");
+                                System.out.print("Jogando dados em ");
+                                Thread.sleep(700);
+                                System.out.print("3...");
+                                Thread.sleep(700);
+                                System.out.print("2...");
+                                Thread.sleep(700);
+                                System.out.print("1...\n");
+                                Thread.sleep(1000);
 
-                    switch (resposta) {
-                        case 1:
-                            System.out.println("Você definiu " + numJogadas + " jogadas.");
-                            System.out.print("Jogando dados em ");
-                            Thread.sleep(700);
-                            System.out.print("3...");
-                            Thread.sleep(700);
-                            System.out.print("2...");
-                            Thread.sleep(700);
-                            System.out.print("1...\n");
-                            Thread.sleep(1000);
+                                System.out.print("\n> ");
+                                for (int i = 1; i <= numJogadas; i++) {
+                                    System.out.print(i + " ");
+                                    p.jogaDado(ID);
+                                    Thread.sleep(100);
+                                }
 
-                            System.out.print("\n> ");
-                            for (int i = 1; i <= numJogadas; i++) {
-                                System.out.print(i + " ");
-                                p.jogaDado(ID);
-                                Thread.sleep(100);
-                            }
+                                System.out.print("<");
 
-                            System.out.print("<");
+                                System.out.println("\n\n" + p.obtemTabuleiro(ID));
 
-                            System.out.println("\n\n" + p.obtemTabuleiro(ID));
-                            
-                            if(p.getNumBolas(ID) == 0){
-                                System.out.println("Parabéns, suas bolas terminaram! Você venceu!");
+                                if (p.getNumBolas(ID) == 0) {
+                                    System.out.println("Parabéns, suas bolas terminaram! Você venceu!");
+                                    aux = 2;
+                                    break;
+                                }
+
+                                System.out.println("Você ficou com " + p.getNumBolas(ID) + " bolas!");
+                                vezAux = true;
+                                break;
+                            case -1:
+                                System.out.println("Ocorreu um erro!");
+                                aux = -1;
+                                break;
+                            case -2:
+                                System.out.println("Não existe partida.");
                                 aux = 2;
                                 break;
-                            }
-                            
-                            System.out.println("Você ficou com " + p.getNumBolas(ID) + " bolas!");
-                            vezAux = true;
-                            break;
-                        case -1:
-                            System.out.println("Ocorreu um erro!");
-                            aux = -1;
-                            break;
-                        case -2:
-                            System.out.println("Não existe partida.");
-                            aux = 2;
-                            break;
-                        case -3:
-                            System.out.println("Não é a sua vez.");
-                            break;
-                        case -4:
-                            System.out.println("Não é hora de definir jogadas.");
-                            break;
-                        default:
-                            System.out.println("Erro!");
-                            break;
-                    }
-                } else if (vez == 2) {
-                    System.out.println("Parabéns, suas bolas terminaram! Você venceu!");
-                    aux = 2;
-                } else if (vez == 3) {
-                    System.out.println("As bolas de " + oponente + " acabaram! Você perdeu!");
-                    aux = 2;
-                } else if (vez == 5) {
-                    System.out.println(oponente + " não respondeu após 30s. Você venceu!");
-                    aux = 2;
-                } else if (vez == 6) {
-                    System.out.println("Você ficou inativo por 30s. " + oponente + " venceu!");
-                    aux = 2;
+                            case -3:
+                                System.out.println("Não é a sua vez.");
+                                break;
+                            case -4:
+                                System.out.println("Não é hora de definir jogadas.");
+                                break;
+                            default:
+                                System.out.println("Erro!");
+                                break;
+                        }
+                        break;
+                    case 2:
+                        System.out.println("Parabéns, suas bolas terminaram! Você venceu!");
+                        aux = 2;
+                        break;
+                    case 3:
+                        System.out.println("As bolas de " + oponente + " acabaram! Você perdeu!");
+                        aux = 2;
+                        break;
+                    case 5:
+                        System.out.println(oponente + " não respondeu após 30s. Você venceu!");
+                        aux = 2;
+                        break;
+                    case 6:
+                        System.out.println("Você ficou inativo por 30s. " + oponente + " venceu!");
+                        aux = 2;
+                        break;
+                    default:
+                        break;
                 }
 
                 Thread.sleep(500);
