@@ -142,6 +142,12 @@ public class SpeculateClient {
                         System.out.println("\n\n" + p.obtemTabuleiro(ID));
                         System.out.println("É o seu turno! Você tem " + quantidadeBolas + " bolas. Defina o número de jogadas\n");
                         numJogadas = sc.nextInt();
+                        
+                        if(numJogadas > quantidadeBolas){
+                            System.out.println("Você deve jogar entre 1 e " + quantidadeBolas + " dados!");
+                            break;
+                        }
+                        
                         int resposta = p.defineJogadas(ID, numJogadas);
                         switch (resposta) {
                             case 1:
@@ -157,7 +163,7 @@ public class SpeculateClient {
 
                                 System.out.print("<");
 
-                                System.out.println("\n\n" + p.obtemTabuleiro(ID));
+                                System.out.println("Tabuleiro atual: \n" + p.obtemTabuleiro(ID));
 
                                 if (p.getNumBolas(ID) == 0) {
                                     System.out.println("Parabéns, suas bolas terminaram! Você venceu!");

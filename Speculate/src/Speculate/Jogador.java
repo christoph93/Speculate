@@ -23,7 +23,7 @@ public class Jogador {
         this.ID = ID;
         this.nome = nome;
         this.jogadas = -1;
-        numBolas = 5;
+        numBolas = 15;
         status = 1;
     }
 
