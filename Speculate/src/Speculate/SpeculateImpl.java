@@ -3,6 +3,7 @@ package Speculate;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 
 public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInterface {
 
@@ -14,6 +15,7 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
     private int maxPartidas;
     private Jogador jog1Espera;
     private Jogador jog2Espera;
+    private Semaphore semaph;
 
     public SpeculateImpl(int maxPartidas) throws RemoteException {
         this.maxPartidas = maxPartidas;
@@ -22,6 +24,7 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
         jog1Espera = null;
         jog2Espera = null;
         criaPartidas(maxPartidas - 1);
+        semaph = new Semaphore(0);
     }
 
     public int registraJogador(String nome) throws RemoteException {
@@ -41,6 +44,7 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
         }
 
         Jogador novoJog = new Jogador(nextID, nome);
+        
         nextID++;
         jogadores.add(novoJog);
         System.out.println("retornando " + novoJog.getID());
