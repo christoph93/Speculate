@@ -1,6 +1,10 @@
-F:
-cd F:\Netbeans\Speculate\Speculate\dist
+C:
+cd C:\Users\ccalifi\Documents\NetBeansProjects\Speculate\Speculate\dist
 start java -cp Speculate.jar Speculate.SpeculateServer
-timeout /t 5
-start java -cp Speculate.jar Speculate.SpeculateClient
-start java -cp Speculate.jar Speculate.SpeculateClient
+timeout /t 10
+
+FOR /L %%A IN (1,1,4) DO (
+  start java -cp Speculate.jar Speculate.SpeculateClient
+  ECHO %%A
+) 
+
