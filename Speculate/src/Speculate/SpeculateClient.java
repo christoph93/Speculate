@@ -146,20 +146,13 @@ public class SpeculateClient {
                         switch (resposta) {
                             case 1:
                                 System.out.println("Você definiu " + numJogadas + " jogadas.");
-                                System.out.print("Jogando dados em ");
-                                Thread.sleep(700);
-                                System.out.print("3...");
-                                Thread.sleep(700);
-                                System.out.print("2...");
-                                Thread.sleep(700);
-                                System.out.print("1...\n");
+                                System.out.print("Jogando dados... ");                                
                                 Thread.sleep(1000);
 
                                 System.out.print("\n> ");
                                 for (int i = 1; i <= numJogadas; i++) {
-                                    System.out.print(i + " ");
-                                    p.jogaDado(ID);
-                                    Thread.sleep(100);
+                                    System.out.print(p.jogaDado(ID) + " ");                                    
+                                    Thread.sleep(200);
                                 }
 
                                 System.out.print("<");

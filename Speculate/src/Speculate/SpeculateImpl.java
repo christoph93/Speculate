@@ -4,6 +4,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInterface {
 
@@ -15,7 +17,7 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
     private int maxPartidas;
     private Jogador jog1Espera;
     private Jogador jog2Espera;
-    private Semaphore semaph;
+    private Semaphore semaph = new Semaphore(1);
 
     public SpeculateImpl(int maxPartidas) throws RemoteException {
         this.maxPartidas = maxPartidas;
@@ -23,8 +25,7 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
         partidas = new Partida[maxPartidas];
         jog1Espera = null;
         jog2Espera = null;
-        criaPartidas(maxPartidas - 1);
-        semaph = new Semaphore(0);
+        criaPartidas(maxPartidas - 1);        
     }
 
     public int registraJogador(String nome) throws RemoteException {
@@ -44,17 +45,28 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
         }
 
         Jogador novoJog = new Jogador(nextID, nome);
-        
+        try {
+            semaph.acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(SpeculateImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         nextID++;
+        semaph.release();
         jogadores.add(novoJog);
         System.out.println("retornando " + novoJog.getID());
         return novoJog.getID();
     }
 
     private void criaPartidas(int maxPartidas) {
+        try {
+            semaph.acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(SpeculateImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         for (int i = 0; i <= maxPartidas; i++) {
             partidas[i] = new Partida(null, null, i);
         }
+        semaph.release();
     }
 
     public int temPartida(int ID) throws RemoteException {
@@ -89,13 +101,32 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
         for (Partida p : partidas) {
             if (p.getJogador1() != null && p.getJogador2() == null) {
                 System.out.println("colocando jogador " + jAux.getNome() + " na partida " + p.getID() + " e retornando 2");
+                
+                try {
+                    semaph.acquire();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(SpeculateImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 p.setJogador2(jAux);
                 p.setVez(p.getJogador1());
+                
+                semaph.release();
                 return 2;
             } else if (p.getJogador1() == null && p.getJogador2() == null) {
                 System.out.println("colocando jogador " + jAux.getNome() + " na partida " + p.getID() + " e retornando 0");
+                
+                try {
+                    semaph.acquire();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(SpeculateImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 p.setJogador1(jAux);
                 p.setVez(p.getJogador1());
+                
+                semaph.release();
+                
                 return 0;
             }
         }
@@ -146,6 +177,8 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
         if (p.getVez().getID() == idJogador) { //é a vez do jogador
             //verifica se já ganhou ou se o oponente ganhou
 
+            
+                     
             if (p.getJogador1() == p.getVez()) { //é a vez do jogador1
                 if (p.getJogador1().getNumBolas() == 0) { //jogador1 venceu
                     liberaPartida(p);
@@ -163,6 +196,8 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
                     return 3;
                 }
             }
+            
+            
 
             return 1;
         }
@@ -174,16 +209,31 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
     }
 
     public String obtemTabuleiro(int ID) throws RemoteException {
+        try {
+                    semaph.acquire();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(SpeculateImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        
         System.out.println("obtemTabuleiro(" + ID + ")");
         Partida p = getPartidaByIdJogador(ID);
+        
+        semaph.release();
         return p.getTabuleiro().getTabuleiro();
 
     }
     
     
     private void liberaPartida(Partida p){
+        try {
+                    semaph.acquire();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(SpeculateImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        
         int tmpID = p.getID();
         p = new Partida(null, null, tmpID);
+        semaph.release();
     }
     
 
