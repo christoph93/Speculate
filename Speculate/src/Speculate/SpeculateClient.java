@@ -11,7 +11,8 @@ import java.util.logging.Logger;
 public class SpeculateClient {
 
     public static void main(String[] args) throws InterruptedException {
-
+      boolean jogando = true;
+        while(jogando){
         int ID = -1;
 
         try {
@@ -27,7 +28,7 @@ public class SpeculateClient {
 
                 System.out.println("Selecine uma opção: ");
 
-                System.out.println("1 - Registrar \n2 - Procurar partida \n3 - Encerrar");
+                System.out.println("1 - Registrar \n2 - Encerrar");
                 op = sc.nextInt();
 
                 //seleção no menu
@@ -43,18 +44,16 @@ public class SpeculateClient {
                             break;
                         } else if (resp >= 1) {
                             System.out.println("Registrado com sucesso. Seu ID é " + resp);
-                            ID = resp;
+                            ID = resp; //recebe ID do servidor
                             aux = 2;
                             break;
                         }
 
                     case 2:
-                    //procurar partida
-
-                    case 3:
                         aux = -1;
+                        jogando = false;
                         break;
-
+                        
                     default:
                         break;
                 }
@@ -107,10 +106,12 @@ public class SpeculateClient {
 
                     case 2:
                         aux = -1;
+                        jogando = false;
                         break;
 
                     default:
                         aux = -1;
+                        jogando = false;
                         break;
                 }
 
@@ -135,19 +136,19 @@ public class SpeculateClient {
                 6 (perdedor por WO)
                  */
                 switch (vez) {
-                    case 0:
+                    case 0: //caso não seja a sua vez de jogar
                         if (vezAux) {
                             System.out.println(oponente + " está jogando. Por favor aguarde.");
                             vezAux = false;
                         }
                         break;
-                    case 1:
+                    case 1: //é a vez do jogador 
                         quantidadeBolas = p.getNumBolas(ID); //recebe a quantidade de bolas disponíveis para este jogador
                         System.out.println("\nTabuleiro atual: \n" + p.obtemTabuleiro(ID) + "\n");
                         System.out.println("É o seu turno! Você tem " + quantidadeBolas + " bolas. Defina o número de jogadas\n"); //define quantos dados vai jogar
                         numJogadas = sc.nextInt();
                         
-                        if(numJogadas > quantidadeBolas){ //quantidade de dados inválida
+                        if(numJogadas > quantidadeBolas || numJogadas <= 0){ //quantidade de dados inválida
                             System.out.println("Você deve jogar entre 1 e " + quantidadeBolas + " dados!\n");
                             break;
                         }
@@ -228,7 +229,7 @@ public class SpeculateClient {
         } catch (RemoteException ex) {
             Logger.getLogger(SpeculateClient.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+    }
     }
 
 }
