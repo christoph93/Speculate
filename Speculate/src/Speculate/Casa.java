@@ -25,6 +25,8 @@ public class Casa {
         this.ocupada = false;
     }
 
+    
+    //retorna X para ocupada, O para livre
     public String getCasa() {
         if(ocupada) return "X";
         else return "O";

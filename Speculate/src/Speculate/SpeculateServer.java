@@ -14,7 +14,7 @@ public class SpeculateServer {
 			System.out.println("RMI registry already running.");
 		}
 		try {
-			Naming.rebind ("Speculate", new SpeculateImpl(5));
+			Naming.rebind ("Speculate", new SpeculateImpl(5)); //cria o servidor com a capacidade de partidas indicada
 			System.out.println ("Speculate server pronto.");
 		} catch (Exception e) {
 			System.out.println ("Speculate server falhou:");

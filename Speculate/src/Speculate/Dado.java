@@ -10,6 +10,7 @@ import java.util.Random;
 
 public class Dado {
     
+    //retorna numero aleatório de 1 a 6
     public  int jogaDado(){
         Random r = new Random();        
         return r.nextInt(6) + 1;       

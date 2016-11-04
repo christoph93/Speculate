@@ -22,6 +22,7 @@ public class SpeculateClient {
 
             SpeculateInterface p = (SpeculateInterface) Naming.lookup("//localhost/Speculate");
 
+            //menu para se registrar
             while (aux == 1) {
 
                 System.out.println("Selecine uma opção: ");
@@ -29,6 +30,7 @@ public class SpeculateClient {
                 System.out.println("1 - Registrar \n2 - Procurar partida \n3 - Encerrar");
                 op = sc.nextInt();
 
+                //seleção no menu
                 switch (op) {
                     case 1:
                         System.out.println("Digite seu nome");
@@ -61,6 +63,8 @@ public class SpeculateClient {
 
             String oponente = "";
 
+            
+            //após registrado é possível procurar uma partida
             while (aux == 2) {
 
                 System.out.println("Selecione uma opção: ");
@@ -74,24 +78,24 @@ public class SpeculateClient {
 
                         //fica perguntando ao servidor se tem partida
                         System.out.println("Procurando partida...");
-                        while (statusPartida == 0) {
+                        while (statusPartida == 0) { //enquanto não há partida formada, veriifca se já existe partida
                             Thread.sleep(1000);
                             statusPartida = p.temPartida(ID);
                         }
 
-                        switch (statusPartida) {
+                        switch (statusPartida) { //encontrou partida ou erro
                             case -1:
                                 System.out.println("Ocorreu um erro!");
                                 aux = -1;
                                 return;
 
-                            case 1:
+                            case 1: //é o primeiro a jogar
                                 oponente = p.obtemOponente(ID);
                                 System.out.println("Partida encontrada! Você começa jogando. Seu oponente é " + oponente);
                                 aux = 3;
                                 break;
 
-                            case 2:
+                            case 2: //é o segundo a jogar
                                 oponente = p.obtemOponente(ID);
                                 System.out.println("Partida encontrada! Você é o segundo a jogar. Seu oponente é " + oponente);
                                 aux = 3;
@@ -138,12 +142,12 @@ public class SpeculateClient {
                         }
                         break;
                     case 1:
-                        quantidadeBolas = p.getNumBolas(ID);
+                        quantidadeBolas = p.getNumBolas(ID); //recebe a quantidade de bolas disponíveis para este jogador
                         System.out.println("\nTabuleiro atual: \n" + p.obtemTabuleiro(ID) + "\n");
-                        System.out.println("É o seu turno! Você tem " + quantidadeBolas + " bolas. Defina o número de jogadas\n");
+                        System.out.println("É o seu turno! Você tem " + quantidadeBolas + " bolas. Defina o número de jogadas\n"); //define quantos dados vai jogar
                         numJogadas = sc.nextInt();
                         
-                        if(numJogadas > quantidadeBolas){
+                        if(numJogadas > quantidadeBolas){ //quantidade de dados inválida
                             System.out.println("Você deve jogar entre 1 e " + quantidadeBolas + " dados!\n");
                             break;
                         }
@@ -155,8 +159,8 @@ public class SpeculateClient {
                                 System.out.print("Jogando dados... ");                                
                                 Thread.sleep(1000);
 
-                                System.out.print("\n\n> ");
-                                for (int i = 1; i <= numJogadas; i++) {
+                                System.out.print("\n\n> "); 
+                                for (int i = 1; i <= numJogadas; i++) { //chama o metodo jogaDado() para a quantidade de dados escolhidos
                                     System.out.print(p.jogaDado(ID) + " ");                                    
                                     Thread.sleep(150);
                                 }
@@ -165,7 +169,7 @@ public class SpeculateClient {
 
                                 System.out.println("\nTabuleiro atual: \n" + p.obtemTabuleiro(ID));
 
-                                if (p.getNumBolas(ID) == 0) {
+                                if (p.getNumBolas(ID) == 0) { //verifica se o jogador venceu
                                     System.out.println("Parabéns, suas bolas terminaram! Você venceu!");
                                     aux = 2;
                                     break;
