@@ -109,15 +109,16 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
         }
 
         //não está em nunhuma partida
+                        
+        try {
+            semaph.acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(SpeculateImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         for (Partida p : partidas) {
-            if (p.getJogador1() != null && p.getJogador2() == null) {
+            if (p.getJogador1() != null && p.getJogador2() == null) { //Coloca o jogador em uma partida como Jogador 2
                 System.out.println("colocando jogador " + jAux.getNome() + " na partida " + p.getID() + " e retornando 2");
-                
-                try {
-                    semaph.acquire();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(SpeculateImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
                 
                 p.setJogador2(jAux);
                 p.setVez(p.getJogador1());
@@ -127,11 +128,11 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
             } else if (p.getJogador1() == null && p.getJogador2() == null) {
                 System.out.println("colocando jogador " + jAux.getNome() + " na partida " + p.getID() + " e retornando 0");
                 
-                try {
-                    semaph.acquire();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(SpeculateImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
+//                try {
+//                    semaph.acquire();
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(SpeculateImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                }
                 
                 p.setJogador1(jAux);
                 p.setVez(p.getJogador1());
@@ -141,7 +142,7 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
                 return 0;
             }
         }
-
+        semaph.release();
         return -1;
     }
 
