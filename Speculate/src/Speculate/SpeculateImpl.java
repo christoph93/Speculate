@@ -175,21 +175,19 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
         }
 
         if (!jogadorExiste) {
-            return -1;
+            return -1; //retorna -1 caso não encontre o jogador
         }
 
         //busca a partida do jogador
         Partida p = getPartidaByIdJogador(idJogador);
 
         if (p == null) {
-            return -2;
+            return -2; //retorna -2 caso não encontre a partida a qual o jogador pertence.
         }
 
         //verifica se é a vez do jogador
         if (p.getVez().getID() == idJogador) { //é a vez do jogador
-            //verifica se já ganhou ou se o oponente ganhou
-
-            
+            //verifica se já ganhou ou se o oponente ganhou            
                      
             if (p.getJogador1() == p.getVez()) { //é a vez do jogador1
                 if (p.getJogador1().getNumBolas() == 0) { //jogador1 venceu
@@ -221,16 +219,10 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
     }
 
     public String obtemTabuleiro(int ID) throws RemoteException {
-        try {
-                    semaph.acquire();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(SpeculateImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
         
         System.out.println("obtemTabuleiro(" + ID + ")");
         Partida p = getPartidaByIdJogador(ID);
-        
-        semaph.release();
+       
         return p.getTabuleiro().getTabuleiro();
 
     }
@@ -250,38 +242,38 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
     
 
     public String obtemOponente(int ID) throws RemoteException {
-        Partida p = getPartidaByIdJogador(ID);
-        if (p.getJogador1().getID() == ID) {
-            return p.getJogador2().getNome();
+        Partida p = getPartidaByIdJogador(ID); //acha a partida do jogador
+        if (p.getJogador1().getID() == ID) { 
+            return p.getJogador2().getNome(); //Retorna o nome do Jogador 2, caso o ID passado seja do Jogador 1
         }
         if (p.getJogador2().getID() == ID) {
-            return p.getJogador1().getNome();
+            return p.getJogador1().getNome(); //Retorna o nome do Jogador 1, caso o ID passado seja do Jogador 2
         }
 
         return "";
     }
 
     public int getNumBolas(int ID) {
-        Partida p = getPartidaByIdJogador(ID);
+        Partida p = getPartidaByIdJogador(ID); //acha a partida do jogador
 
-        if (ID == p.getJogador1().getID()) {
+        if (ID == p.getJogador1().getID()) { //acha o jogador dentro da partida e retorna o número de bolas que possue
             return p.getJogador1().getNumBolas();
         } else if (ID == p.getJogador2().getID()) {
             return p.getJogador2().getNumBolas();
         } else {
-            return -1;
+            return -1; //retorna -1 caso não ache o jogador
         }
 
     }
 
     public int defineJogadas(int ID, int numJogadas) throws RemoteException {
-        Partida p = getPartidaByIdJogador(ID);
-        return p.defineJogadas(ID, numJogadas);
+        Partida p = getPartidaByIdJogador(ID); //Acha a partida do jogador
+        return p.defineJogadas(ID, numJogadas); //Define quantas vezes o jogador vai jogar o dado na rodada
     }
 
     public int jogaDado(int ID) throws RemoteException {
         System.out.println("jogaDado(" + ID + ")");
-        Partida p = getPartidaByIdJogador(ID);
+        Partida p = getPartidaByIdJogador(ID); //acha a partida do jogador
         int a = p.jogaDado(ID);
         System.out.println("a: " + a);
         return a;
