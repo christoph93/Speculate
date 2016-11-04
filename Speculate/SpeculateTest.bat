@@ -1,5 +1,5 @@
 C:
-cd C:\Users\ccalifi\Documents\NetBeansProjects\Speculate\Speculate\dist
+cd C:\Users\lcaltab\Documents\NetBeansProjects\Speculate\Speculate\dist
 start java -cp Speculate.jar Speculate.SpeculateServer
 timeout /t 10
 
