@@ -1,5 +1,10 @@
 package Speculate;
 
+/*
+
+@Author - Christoph Califice e Lucas Caltabiano
+*/
+
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;

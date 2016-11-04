@@ -1,5 +1,9 @@
 package Speculate;
 
+/*
+
+@Author - Christoph Califice e Lucas Caltabiano
+*/
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

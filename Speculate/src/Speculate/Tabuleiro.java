@@ -3,6 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+/*
+
+@Author - Christoph Califice e Lucas Caltabiano
+*/
 package Speculate;
 
 /* Classe criada para representar o tabuleiro */

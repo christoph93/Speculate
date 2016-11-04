@@ -1,5 +1,10 @@
 package Speculate;
 
+/*
+
+@Author - Christoph Califice e Lucas Caltabiano
+*/
+
 import Speculate.SpeculateImpl;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
