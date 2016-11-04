@@ -30,6 +30,7 @@ public class SpeculateClient {
                 System.out.println("1 - Registrar \n2 - Procurar partida \n3 - Encerrar");
                 op = sc.nextInt();
 
+                //seleção no menu
                 switch (op) {
                     case 1:
                         System.out.println("Digite seu nome");
