@@ -5,10 +5,8 @@
  */
 package Speculate;
 
-/**
- *
- * @author 12104806
- */
+/* Classe criada para representar o tabuleiro */
+
 public class Tabuleiro {
 
     private String tabuleiro;
@@ -19,13 +17,14 @@ public class Tabuleiro {
         criaCasas();
     }
 
+/* Método para criar as casas do tabuleiro e definir inicialmente a casa 1, 3 e 5 como ocupadas */    
     private void criaCasas() {
         casas = new Casa[6];
 
         for (int i = 0; i < 6; i++) {
             casas[i] = new Casa();
         }
-
+//define as casas inicias como ocupadas
         casas[0].setOcupada();
         casas[2].setOcupada();
         casas[4].setOcupada();
@@ -35,11 +34,11 @@ public class Tabuleiro {
         return casas;
     }
     
-    
+ //marca uma casa como ocupada a partir do número da casa que representa a posição dela no array -1   
     public void ocupaCasa(int casa){
         casas[casa-1].setOcupada();
     }
-    
+//marca uma casa como livre a partir do número da casa que representa a posição dela no array -1     
     public void liberaCasa(int casa){
         casas[casa-1].setLivre();
     }

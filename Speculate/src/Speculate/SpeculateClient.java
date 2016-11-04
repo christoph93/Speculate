@@ -34,7 +34,7 @@ public class SpeculateClient {
                         System.out.println("Digite seu nome");
                         int resp = p.registraJogador(sc.next());
                         if (resp == -1) {
-                            System.out.println("Nome já cadstrado");
+                            System.out.println("Nome já cadastrado");
                             break;
                         } else if (resp == -2) {
                             System.out.println("Numero máximo de jogadores atingido");

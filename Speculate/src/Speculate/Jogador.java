@@ -5,10 +5,10 @@
  */
 package Speculate;
 
-/**
- *
- * @author ccalifi
- */
+/*
+Classe para representar um jogador do jogo Speculate
+*/
+
 public class Jogador {
     
     

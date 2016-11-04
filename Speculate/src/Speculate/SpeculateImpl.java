@@ -7,6 +7,13 @@ import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
+/* 
+
+Classe que implementa os métodos remotos disponíveis 
+
+*/
+
 public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInterface {
 
     private static final long serialVersionUID = 1234L;
@@ -20,17 +27,19 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
     private Semaphore semaph = new Semaphore(1);
 
     public SpeculateImpl(int maxPartidas) throws RemoteException {
-        this.maxPartidas = maxPartidas;
-        jogadores = new ArrayList<>(maxPartidas * 2);
-        partidas = new Partida[maxPartidas];
+        this.maxPartidas = maxPartidas; //Ajusta o número máximo de partidas baseado no paramêtro passado
+        jogadores = new ArrayList<>(maxPartidas * 2); //cria um array para armazenar todos os jogadores
+        partidas = new Partida[maxPartidas]; //Cria uma lista de partidas com o limite igual ao máximo possível
         jog1Espera = null;
         jog2Espera = null;
-        criaPartidas(maxPartidas - 1);        
+        criaPartidas(maxPartidas - 1); //inicializa o número máximo de partidas       
     }
 
     public int registraJogador(String nome) throws RemoteException {
         System.out.println("Registrando jogador " + nome);
 
+        //Verifica se já existe um jogador registrado com o mesmo nome.
+        //Retorna -1 caso já exista
         for (Jogador j : jogadores) {
             if (j.getNome().equals(nome)) {
                 System.out.println("retornando -1");
@@ -44,19 +53,21 @@ public class SpeculateImpl extends UnicastRemoteObject implements SpeculateInter
             return -2;
         }
 
-        Jogador novoJog = new Jogador(nextID, nome);
+        //registra o novo jogador
         try {
             semaph.acquire();
         } catch (InterruptedException ex) {
             Logger.getLogger(SpeculateImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+        Jogador novoJog = new Jogador(nextID, nome);
         nextID++;
-        semaph.release();
         jogadores.add(novoJog);
         System.out.println("retornando " + novoJog.getID());
+        semaph.release();
         return novoJog.getID();
     }
 
+//Método que inicializa previamente todas as partidas dentro do limite estipulado
     private void criaPartidas(int maxPartidas) {
         try {
             semaph.acquire();
